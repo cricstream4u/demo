@@ -3,136 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="Cric_stream_Favicon.jpg">
+    <link rel="shortcut icon" type="image/x-icon" href="Cric stream Favicon.jpg">
     <title>TG-@cric_stream</title>
     <style>
         body {
             margin: 0;
-            padding-top: 5px;
+            padding: 5px;
             font-family: Arial, sans-serif;
-            width: 100%;
+            text-align: center;
             background-color: #000;
             color: #fff;
-            text-align: center;
         }
-        #jwplayerDiv {
+        video {
             width: 100%;
-            height: 100vh;
-        }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #1c1c1c;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
-            z-index: 1002;
-            width: 90%;
-            max-width: 400px;
-            animation: fadeIn 0.5s;
-        }
-        .popup h2 {
-            color: #ffcc00;
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-        .popup p {
-            margin-bottom: 20px;
-            color: #ccc;
-            font-size: 16px;
-        }
-        .popup button {
-            background-color: #0088cc;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-        .popup button:hover {
-            background-color: #006699;
-        }
-        .popup .close-btn {
-            background-color: #555;
-        }
-        .popup .close-btn:hover {
-            background-color: #333;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            max-width: 800px;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            margin-top: 10px;
         }
     </style>
-    <script src="https://cdn.jwplayer.com/libraries/SAHhwvZq.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <div id="jwplayerDiv"></div>
+    <h2>Live Stream</h2>
+    <video id="videoPlayer" controls autoplay></video>
     <script>
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-        const hlsStreamUrl = getQueryParam("file");
-        if (!hlsStreamUrl) {
+
+        const video = document.getElementById("videoPlayer");
+        let streamUrl = getQueryParam("file");
+        
+        if (!streamUrl) {
             alert("No HLS stream URL provided. Please add a 'file' parameter to the URL.");
         } else {
-            const playerInstance = jwplayer("jwplayerDiv");
-            playerInstance.setup({
-                file: hlsStreamUrl,
-                width: "100%",
-                height: "100%",
-                aspectratio: "16:9",
-                autostart: true,
-                mute: false,
-                type: "hls",
-                preload: "auto",
-                cast: { appid: "CC1AD845" }
-            });
-            playerInstance.on('error', function(error) {
-                console.error("Error loading stream:", error.message);
-                alert("Failed to load the stream. Please check the URL and try again.");
-            });
+            // Use a CORS proxy if needed
+            const proxyUrl = "https://corsproxy.io/?";
+            streamUrl = proxyUrl + encodeURIComponent(streamUrl);
+            
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(streamUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    console.error("HLS.js error", data);
+                    alert("Failed to load stream. Please check the URL.");
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = streamUrl;
+                video.addEventListener('loadedmetadata', () => video.play());
+            } else {
+                alert("Your browser does not support HLS playback.");
+            }
         }
     </script>
-    <script>
-        if (window.top !== window.self) {
-            window.addEventListener('DOMContentLoaded', function() {
-                document.body.innerHTML = '<div id="message"></div>';
-            });
-        }
-        window.addEventListener("load", function() {
-            var popup = document.createElement("div");
-            popup.className = "popup";
-            popup.innerHTML = `
-              <h2>Support Us!</h2>
-              <p>Join our Telegram channel <br>@cric_stream official for more updates.</p>
-              <button id="joinButton">Join Now</button>
-              <button id="closeButton" class="close-btn">Already Joined</button>
-            `;
-            document.body.appendChild(popup);
-            document.getElementById("joinButton").addEventListener("click", function() {
-                window.location.href = "https://t.me/cric_stream";
-            });
-            document.getElementById("closeButton").addEventListener("click", function() {
-                document.body.removeChild(popup);
-            });
-        });
-    </script>
-    <center>
-        <script type="text/javascript" src="//widget.supercounters.com/ssl/online_t.js"></script>
-        <script type="text/javascript">sc_online_t(1707487,"Users Online","170ddb");</script>
-        <br><noscript><a href="https://www.supercounters.com/">supercounters.com</a></noscript>
-    </center>
-    <div style="background-color: #0074d9; text-align: center; padding: 10px;">
-        <a href="https://t.me/cric_stream" target="_blank">
-            <button id="joinTelegramButton">Join Telegram</button>
-        </a>
-    </div>
 </body>
 </html>
