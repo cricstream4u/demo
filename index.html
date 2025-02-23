@@ -3,39 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Player</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-</head>
-<body>
-    <video id="video" controls autoplay style="width:100%; max-width:800px;"></video>
-    <script>
-        function getQueryParam(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
+    <link rel="shortcut icon" type="image/x-icon" href="Cric stream Favicon.jpg">
+    <title>TG-@cric_stream</title>
+    <style>
+        body {
+            margin: 0px;
+            padding-top: 5px;
+            font-family: Arial, sans-serif;
+            width: 100%;
         }
 
-        function playM3u8(url) {
-            var video = document.getElementById('video');
-            if (Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play();
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
+        #jwplayerDiv {
+            width: 100%;
+            height: 100%;
+        }
+
+        .zoom-controls {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .zoom-button {
+            background-color: #0088cc;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .zoom-button:hover {
+            background-color: #006699;
+        }
+    </style>
+    <script src="https://cdn.jwplayer.com/libraries/SAHhwvZq.js"></script>
+</head>
+<body>
+    <div id="jwplayerDiv"></div>
+
+    <!-- Zoom Controls -->
+    <div class="zoom-controls">
+        <button class="zoom-button" onclick="zoomIn()">Zoom In</button>
+        <button class="zoom-button" onclick="zoomOut()">Zoom Out</button>
+    </div>
+
+    <script>
+        let zoomLevel = 1; // Track current zoom level
+
+        // Function to get URL query parameters
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Retrieve the 'file' parameter from the URL
+        const hlsStreamUrl = getQueryParam("file");
+
+        if (!hlsStreamUrl) {
+            alert("No HLS stream URL provided. Please add a 'file' parameter to the URL.");
+        } else {
+            // Initialize JW Player
+            const playerInstance = jwplayer("jwplayerDiv");
+
+            // Configure the player with the HLS stream from URL parameter
+            playerInstance.setup({
+                file: hlsStreamUrl,
+                width: "100%",
+                height: "100%",
+                aspectratio: "16:9",
+                autostart: true,
+                mute: false,
+                type: "hls", // Ensures HLS compatibility
+                preload: "auto", // Preload stream for faster playback
+                controls: true,
+                cast: {
+                    appid: "CC1AD845" // Chromecast App ID (optional)
+                }
+            });
+
+            // Optional: Handle player errors gracefully
+            playerInstance.on('error', function(error) {
+                console.error("Error loading stream:", error.message);
+            });
+        }
+
+        // Zoom In Function
+        function zoomIn() {
+            if (zoomLevel < 2) {  // Maximum zoom level
+                zoomLevel += 0.1;
+                adjustZoom();
             }
         }
 
-        var streamUrl = getQueryParam('src');
-        if (streamUrl) {
-            playM3u8(streamUrl);
-        } else {
-            alert('No stream URL provided! Use ?src=<your_m3u8_url> in the address bar.');
+        // Zoom Out Function
+        function zoomOut() {
+            if (zoomLevel > 0.5) {  // Minimum zoom level
+                zoomLevel -= 0.1;
+                adjustZoom();
+            }
+        }
+
+        // Adjust Player Size Based on Zoom Level
+        function adjustZoom() {
+            const playerDiv = document.getElementById('jwplayerDiv');
+            playerDiv.style.transform = `scale(${zoomLevel})`;
+            playerDiv.style.transformOrigin = 'center'; // Center the zoom
         }
     </script>
 </body>
