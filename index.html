@@ -1,63 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/x-icon" href="Cric stream Favicon.jpg" />
-    <title>TG-@cric_stream</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="https://xyzts.pages.dev/style.css" />
-    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
-    <style>
-      body {
-        margin: 0px;
-        padding-top: 5px;
-        font-family: Arial, sans-serif;
-        width: 100%;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="shortcut icon" type="image/x-icon" href="Cric stream Favicon.jpg" />
+  <title>TG-@cric_stream</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" href="https://xyzts.pages.dev/style.css" />
+  <style>
+    body {
+      margin: 0px;
+      padding-top: 5px;
+      font-family: Arial, sans-serif;
+      width: 100%;
+      background-color: black;
+      color: white;
+    }
 
-      #jwplayerDiv {
-        width: 100%;
-        height: 100%;
-        position: relative;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="jwplayerDiv"></div>
+    #videoContainer {
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      position: relative;
+    }
 
-    <script type="text/javascript">
-      jwplayer("jwplayerDiv").setup({
-        file: "https://d1e7rcqq4o2ma.cloudfront.net/bpk-tv/1717/output/index.mpd",
-        type: "dash",
+    video {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <!-- Shaka Player CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.compiled.min.js"></script>
+</head>
+<body>
+  <div id="videoContainer">
+    <video id="video" autoplay muted controls poster="https://tstatic.akash-go.com/cms-ui/images/custom-content/1739906861365.png"></video>
+  </div>
+
+  <script>
+    async function initPlayer() {
+      const manifestUri = "https://d1e7rcqq4o2ma.cloudfront.net/bpk-tv/1717/output/index.mpd";
+      const licenseServer = "https://akashxpranto.vercel.app/pranto/bhai/2659ffb3-2b08";
+
+      const video = document.getElementById("video");
+      const player = new shaka.Player(video);
+
+      // Widevine DRM config
+      player.configure({
         drm: {
-          widevine: {
-            url: "https://akashxpranto.vercel.app/pranto/bhai/2659ffb3-2b08"
+          servers: {
+            "com.widevine.alpha": licenseServer
           }
-        },
-        autostart: true,
-        mute: false,
-        image: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1739906861365.png", // Thumbnail
-        width: "100%",
-        aspectratio: "16:9"
+        }
       });
+
+      try {
+        await player.load(manifestUri);
+        console.log("The video has been loaded!");
+      } catch (error) {
+        console.error("Error loading video:", error);
+      }
+    }
+
+    shaka.polyfill.installAll();
+    if (shaka.Player.isBrowserSupported()) {
+      initPlayer();
+    } else {
+      console.error("Shaka Player is not supported on this browser.");
+    }
+  </script>
+
+  <center>
+    <!-- BEGIN: Powered by Supercounters.com -->
+    <script type="text/javascript" src="//widget.supercounters.com/ssl/online_t.js"></script>
+    <script type="text/javascript">
+      sc_online_t(1707487, "Users Online", "170ddb");
     </script>
+    <br />
+    <noscript><a href="https://www.supercounters.com/">supercounters.com</a></noscript>
+    <!-- END: Powered by Supercounters.com -->
+  </center>
 
-    <center>
-      <!-- BEGIN: Powered by Supercounters.com -->
-      <script type="text/javascript" src="//widget.supercounters.com/ssl/online_t.js"></script>
-      <script type="text/javascript">
-        sc_online_t(1707487, "Users Online", "170ddb");
-      </script>
-      <br />
-      <noscript><a href="https://www.supercounters.com/">supercounters.com</a></noscript>
-      <!-- END: Powered by Supercounters.com -->
-    </center>
-
-    <div style="background-color: #0074d9; text-align: center; padding: 10px;">
-      <a href="https://t.me/cric_stream" target="_blank">
-        <button id="joinTelegramButton">Join Telegram</button>
-      </a>
-    </div>
-  </body>
+  <div style="background-color: #0074d9; text-align: center; padding: 10px;">
+    <a href="https://t.me/cric_stream" target="_blank">
+      <button id="joinTelegramButton">Join Telegram</button>
+    </a>
+  </div>
+  abch
+</body>
 </html>
