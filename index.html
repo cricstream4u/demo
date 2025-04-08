@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sony Sports TEN 5</title>
+  <title>Sony Sports TEN 5 - Widevine</title>
 
+  <!-- Clappr + Shaka plugin -->
   <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@2.3.0/dist/dash-shaka-playback.min.js"></script>
 
   <style>
-    body, html {
+    html, body {
       margin: 0;
-      padding: 0;
-      background: #000;
       height: 100%;
-      width: 100%;
+      background: #000;
     }
     #player {
-      width: 100vw;
+      width: 100%;
       height: 100vh;
     }
   </style>
@@ -33,8 +32,10 @@
       source: streamUrl,
       mimeType: "application/dash+xml",
       autoPlay: true,
-      parentId: "#player",
+      width: "100%",
+      height: "100%",
       plugins: [DashShakaPlayback],
+      parentId: "#player",
       shakaConfiguration: {
         drm: {
           servers: {
@@ -42,8 +43,8 @@
           }
         }
       },
-      shakaOnBeforeLoad: function(shakaPlayerInstance) {
-        console.log("Widevine DRM configured.");
+      shakaOnBeforeLoad: function(playerInstance) {
+        console.log("Shaka Player initialized with Widevine");
       }
     });
   </script>
