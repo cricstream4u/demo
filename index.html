@@ -1,52 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sony Sports TEN 5 - Widevine</title>
-
-  <!-- Clappr + Shaka plugin -->
-  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@2.3.0/dist/dash-shaka-playback.min.js"></script>
-
-  <style>
-    html, body {
-      margin: 0;
-      height: 100%;
-      background: #000;
-    }
-    #player {
-      width: 100%;
-      height: 100vh;
-    }
-  </style>
-</head>
-<body>
-  <div id="player"></div>
-
-  <script>
-    const streamUrl = "https://d1e7rcqq4o2ma.cloudfront.net/bpk-tv/1717/output/index.mpd";
-    const licenseUrl = "https://akashxpranto.vercel.app/pranto/bhai/2659ffb3-2b08";
-
-    const player = new Clappr.Player({
-      source: streamUrl,
-      mimeType: "application/dash+xml",
-      autoPlay: true,
-      width: "100%",
-      height: "100%",
-      plugins: [DashShakaPlayback],
-      parentId: "#player",
-      shakaConfiguration: {
-        drm: {
-          servers: {
-            "com.widevine.alpha": licenseUrl
-          }
-        }
-      },
-      shakaOnBeforeLoad: function(playerInstance) {
-        console.log("Shaka Player initialized with Widevine");
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="Cric stream Favicon.jpg" />
+    <title>TG-@cric_stream</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="https://xyzts.pages.dev/style.css" />
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <style>
+      body {
+        margin: 0px;
+        padding-top: 5px;
+        font-family: Arial, sans-serif;
+        width: 100%;
       }
-    });
-  </script>
-</body>
+
+      #jwplayerDiv {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="jwplayerDiv"></div>
+
+    <script type="text/javascript">
+      jwplayer("jwplayerDiv").setup({
+        file: "https://d1e7rcqq4o2ma.cloudfront.net/bpk-tv/1717/output/index.mpd",
+        type: "dash",
+        drm: {
+          widevine: {
+            url: "https://akashxpranto.vercel.app/pranto/bhai/2659ffb3-2b08"
+          }
+        },
+        autostart: true,
+        mute: false,
+        image: "https://tstatic.akash-go.com/cms-ui/images/custom-content/1739906861365.png", // Thumbnail
+        width: "100%",
+        aspectratio: "16:9"
+      });
+    </script>
+
+    <center>
+      <!-- BEGIN: Powered by Supercounters.com -->
+      <script type="text/javascript" src="//widget.supercounters.com/ssl/online_t.js"></script>
+      <script type="text/javascript">
+        sc_online_t(1707487, "Users Online", "170ddb");
+      </script>
+      <br />
+      <noscript><a href="https://www.supercounters.com/">supercounters.com</a></noscript>
+      <!-- END: Powered by Supercounters.com -->
+    </center>
+
+    <div style="background-color: #0074d9; text-align: center; padding: 10px;">
+      <a href="https://t.me/cric_stream" target="_blank">
+        <button id="joinTelegramButton">Join Telegram</button>
+      </a>
+    </div>
+  </body>
 </html>
