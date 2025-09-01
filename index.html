@@ -47,6 +47,9 @@
       from { transform: translateX(0%); }
       to { transform: translateX(-100%); }
     }
+    .animate-marquee {
+      animation: marquee 50s linear infinite;
+    }
   </style>
 
   <script src="https://cdn.jwplayer.com/libraries/your-library-key.js"></script>
@@ -65,7 +68,7 @@
   <div class="flex items-center w-full bg-green-800 ">
     <h4 class="shrink-0 m-0 text-lg text-white px-2">UPDATES:</h4>
     <div class="overflow-hidden whitespace-nowrap flex-grow">
-      <p class="inline-block m-0 text-base text-white bg-red-600 px-2 py-1 animate-marquee" style="animation: marquee 50s linear infinite;">
+      <p class="inline-block m-0 text-base text-white bg-red-600 px-2 py-1 animate-marquee">
         If video not play refresh once and wait for few seconds video will start playing otherwise message in Telegram comments.
         यदि वीडियो नहीं चलता है तो एक बार रिफ्रेश करें और कुछ सेकंड प्रतीक्षा करें वीडियो चलना शुरू हो जाएगा अन्यथा टेलीग्राम टिप्पणियों में संदेश दें।
         ভিডিওটি না চললে একবার রিফ্রেশ করুন এবং কয়েক সেকেন্ড অপেক্ষা করুন ভিডিওটি চলতে শুরু করবে অন্যথায় টেলিগ্রামের মন্তব্যে বার্তা পাঠান।
@@ -103,22 +106,22 @@
       <div class="space-y-3">
         <div
           class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
-          data-src="https://cdn.jwplayer.com/videos/1.mp4"
+          data-src="https://cdn.jwplayer.com/manifests/your-stream1.m3u8"
           >Channel 1</div
         >
         <div
           class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
-          data-src="https://cdn.jwplayer.com/videos/2.mp4"
+          data-src="https://cdn.jwplayer.com/manifests/your-stream2.m3u8"
           >Channel 2</div
         >
         <div
           class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
-          data-src="https://cdn.jwplayer.com/videos/3.mp4"
+          data-src="https://cdn.jwplayer.com/manifests/your-stream3.m3u8"
           >Channel 3</div
         >
         <div
           class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
-          data-src="https://cdn.jwplayer.com/videos/4.mp4"
+          data-src="https://cdn.jwplayer.com/manifests/your-stream4.m3u8"
           >Channel 4</div
         >
       </div>
@@ -152,7 +155,7 @@
 
   <script>
     const playerInstance = jwplayer("player-container").setup({
-      file: "https://cdn.jwplayer.com/videos/1.mp4",
+      file: "https://cdn.jwplayer.com/manifests/your-stream1.m3u8",
       width: "100%",
       height: "100%",
       autostart: false,
