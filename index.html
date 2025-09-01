@@ -6,7 +6,7 @@
   <title>JW Player Channels Responsive</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-   <script>
+  <script>
     // Tailwind config for custom colors (optional)
     tailwind.config = {
       theme: {
@@ -18,20 +18,25 @@
             channelBg: '#FFFFFF',
             channelHover: '#E5E7EB', // gray-200
             channelActive: '#3B82F6', // blue-500
-          }
+          },
+          animation: {
+            marquee: 'marquee 50s linear infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(100%)' },
+              '100%': { transform: 'translateX(-100%)' },
+            },
+          },
         }
       }
     }
   </script>
-  
+
   <style>
     html, body {
-      height: 100%;
       margin: 0;
-    }
-    /* Make the #player-container fill available height */
-    #player-container {
-      min-height: 300px;
+      /* Removed height: 100% to enable natural scrolling */
     }
     /* Scrollbar styling for channels */
     #channels::-webkit-scrollbar {
@@ -46,6 +51,7 @@
       border: 2px solid #f1f1f1;
     }
   </style>
+
   <script src="https://cdn.jwplayer.com/libraries/your-library-key.js"></script>
 </head>
 <body class="bg-bgGray flex flex-col min-h-screen">
@@ -58,11 +64,11 @@
     </a>
   </header>
 
-   <!-- 🟢 Scrolling Marquee Update Bar -->
+  <!-- 🟢 Scrolling Marquee Update Bar -->
   <div class="flex items-center w-full bg-green-800">
     <h4 class="shrink-0 m-0 text-lg text-white px-2">UPDATES:</h4>
     <div class="overflow-hidden whitespace-nowrap flex-grow">
-      <p class="inline-block m-0 text-base text-white bg-red-600 px-2 py-1 animate-marquee" style="animation: marquee 50s linear infinite;">
+      <p class="inline-block m-0 text-base text-white bg-red-600 px-2 py-1 animate-marquee">
         If video not play refresh once and wait for few seconds video will start playing otherwise message in Telegram comments.
         यदि वीडियो नहीं चलता है तो एक बार रिफ्रेश करें और कुछ सेकंड प्रतीक्षा करें वीडियो चलना शुरू हो जाएगा अन्यथा टेलीग्राम टिप्पणियों में संदेश दें।
         ভিডিওটি না চললে একবার রিফ্রেশ করুন এবং কয়েক সেকেন্ড অপেক্ষা করুন ভিডিওটি চলতে শুরু করবে অন্যথায় টেলিগ্রামের মন্তব্যে বার্তা পাঠান।
@@ -70,46 +76,80 @@
     </div>
   </div>
 
- <!-- Main content -->
-<main class="flex flex-1 flex-col md:flex-row">
+  <!-- Main content -->
+  <main class="flex flex-1 flex-col md:flex-row">
 
-  <!-- Left side: Ad + Player -->
-  <div class="flex md:flex-row flex-col md:flex-1">
+    <!-- Left side: Ad + Player -->
+    <div class="flex md:flex-row flex-col md:flex-1">
 
-    <!-- Ad Section (hidden on mobile) -->
-    <aside class="hidden md:flex flex-shrink-0 w-[160px] h-[300px] bg-gray-300 rounded-md shadow-md m-4 items-center justify-center text-gray-700 font-semibold select-none">
-      <!-- Replace with your actual ad content here -->
-      Ad 160x300
-    </aside>
+      <!-- Ad Section (hidden on mobile) -->
+      <aside
+        class="hidden md:flex flex-shrink-0 w-[160px] h-[300px] bg-gray-300 rounded-md shadow-md m-4 items-center justify-center text-gray-700 font-semibold select-none"
+      >
+        <!-- Replace with your actual ad content here -->
+        Ad 160x300
+      </aside>
 
-    <!-- Player -->
-    <section id="player-container" class="flex-1 bg-black min-h-[300px] md:min-h-screen py-4 md:py-8 m-4 md:m-0"></section>
-  </div>
-
-  <!-- Channels -->
-  <aside id="channels" class="bg-white md:w-80 overflow-y-auto p-4">
-    <h3 class="text-xl font-semibold mb-4 text-primary">Channels</h3>
-    <div class="space-y-3">
-      <div class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200" data-src="https://cdn.jwplayer.com/videos/1.mp4">Channel 1</div>
-      <div class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200" data-src="https://cdn.jwplayer.com/videos/2.mp4">Channel 2</div>
-      <div class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200" data-src="https://cdn.jwplayer.com/videos/3.mp4">Channel 3</div>
-      <div class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200" data-src="https://cdn.jwplayer.com/videos/4.mp4">Channel 4</div>
+      <!-- Player -->
+      <section
+        id="player-container"
+        class="flex-1 bg-black min-h-[300px] md:min-h-[600px] py-4 md:py-8 m-4 md:m-0"
+      ></section>
     </div>
-  </aside>
-</main>
+
+    <!-- Channels -->
+    <aside
+      id="channels"
+      class="bg-white md:w-80 overflow-y-auto p-4"
+    >
+      <h3 class="text-xl font-semibold mb-4 text-primary">Channels</h3>
+      <div class="space-y-3">
+        <div
+          class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
+          data-src="https://cdn.jwplayer.com/videos/1.mp4"
+          >Channel 1</div
+        >
+        <div
+          class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
+          data-src="https://cdn.jwplayer.com/videos/2.mp4"
+          >Channel 2</div
+        >
+        <div
+          class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
+          data-src="https://cdn.jwplayer.com/videos/3.mp4"
+          >Channel 3</div
+        >
+        <div
+          class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
+          data-src="https://cdn.jwplayer.com/videos/4.mp4"
+          >Channel 4</div
+        >
+      </div>
+    </aside>
+  </main>
 
   <!-- Telegram Button -->
-  <footer class="bg-primary text-white text-center py-4 ">
-    <a href="https://t.me/cric_stream" target="_blank" rel="noopener noreferrer">
-      <button id="joinTelegramButton" class="bg-white text-primary px-6 py-2 rounded-md font-semibold shadow-md hover:bg-gray-100 transition">
+  <footer class="bg-primary text-white text-center py-4">
+    <a
+      href="https://t.me/cric_stream"
+      target="_blank"
+      rel="noopener noreferrer"
+      ><button
+        id="joinTelegramButton"
+        class="bg-white text-primary px-6 py-2 rounded-md font-semibold shadow-md hover:bg-gray-100 transition"
+      >
         Join Telegram
-      </button>
-    </a>
+      </button></a
+    >
   </footer>
 
   <!-- Native ads 4:1 -->
   <div class="max-w-screen-lg mx-auto p-4">
-    <script async="async" data-cfasync="false" src="//carryglanced.com/2346ffc02acfb9eb4451708a5df9f609/invoke.js"></script>
+    <script
+      async="async"
+      data-cfasync="false"
+      src="//carryglanced.com/2346ffc02acfb9eb4451708a5df9f609/invoke.js"
+    ></script>
     <div id="container-2346ffc02acfb9eb4451708a5df9f609"></div>
   </div>
 
@@ -125,19 +165,19 @@
 
     // Helper: remove active class from all channels
     function clearActive() {
-      channels.forEach(c => c.classList.remove('bg-channelActive', 'text-white'));
+      channels.forEach((c) => c.classList.remove("bg-channelActive", "text-white"));
     }
 
     // Set the first channel as active on page load
-    channels[0].classList.add('bg-channelActive', 'text-white');
+    channels[0].classList.add("bg-channelActive", "text-white");
 
-    channels.forEach(channel => {
+    channels.forEach((channel) => {
       channel.addEventListener("click", () => {
         const videoSrc = channel.getAttribute("data-src");
 
-        if (!channel.classList.contains('bg-channelActive')) {
+        if (!channel.classList.contains("bg-channelActive")) {
           clearActive();
-          channel.classList.add('bg-channelActive', 'text-white');
+          channel.classList.add("bg-channelActive", "text-white");
           playerInstance.load([{ file: videoSrc }]);
           playerInstance.play();
         }
