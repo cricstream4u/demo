@@ -6,8 +6,9 @@
   <title>JW Player Channels Responsive</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- JW Player library with your key -->
   <script src="https://cdn.jwplayer.com/libraries/IDzF9Zmk.js"></script>
-   
+
   <script>
     // Tailwind config for custom colors (optional)
     tailwind.config = {
@@ -29,9 +30,7 @@
   <style>
     html, body {
       margin: 0;
-      /* Removed height: 100% to enable natural scrolling */
     }
-    /* Scrollbar styling for channels */
     #channels::-webkit-scrollbar {
       width: 8px;
     }
@@ -52,8 +51,6 @@
       animation: marquee 50s linear infinite;
     }
   </style>
-
-  <script src="https://cdn.jwplayer.com/libraries/your-library-key.js"></script>
 </head>
 <body class="bg-bgGray flex flex-col min-h-screen">
 
@@ -87,7 +84,6 @@
       <aside
         class="hidden md:flex flex-shrink-0 w-[160px] h-[300px] bg-gray-300 rounded-md shadow-md m-4 items-center justify-center text-gray-700 font-semibold select-none"
       >
-        <!-- Replace with your actual ad content here -->
         Ad 160x300
       </aside>
 
@@ -113,12 +109,12 @@
         <div
           class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
           data-src="https://epiconvh.akamaized.net/live/showbox/master.m3u8"
-          >show box 2</div
+          >Show Box 2</div
         >
         <div
           class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
           data-src="https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8"
-          >yrf music 3</div
+          >YRF Music 3</div
         >
         <div
           class="channel cursor-pointer rounded-md p-3 bg-channelBg hover:bg-channelHover transition-colors duration-200"
@@ -155,8 +151,9 @@
   </div>
 
   <script>
+    // Initialize JW Player with first channel's m3u8 directly
     const playerInstance = jwplayer("player-container").setup({
-      file: "https://cricstream4u.github.io/jwplyr/?file=https://amg00877-b4unew-amg00877c3-lg-in-5261.playouts.now.amagi.tv/playlist.m3u8",
+      file: "https://amg01281-9xmediapvtltd-9xjalwa-samsungin-goszf.amagi.tv/playlist/amg01281-9xmediapvtltd-9xjalwa-samsungin/playlist.m3u8",
       width: "100%",
       height: "100%",
       autostart: false,
@@ -164,15 +161,14 @@
 
     const channels = document.querySelectorAll(".channel");
 
-    // Helper: remove active class from all channels
     function clearActive() {
-      channels.forEach((c) => c.classList.remove("bg-channelActive", "text-white"));
+      channels.forEach(c => c.classList.remove("bg-channelActive", "text-white"));
     }
 
-    // Set the first channel as active on page load
+    // Set first channel active
     channels[0].classList.add("bg-channelActive", "text-white");
 
-    channels.forEach((channel) => {
+    channels.forEach(channel => {
       channel.addEventListener("click", () => {
         const videoSrc = channel.getAttribute("data-src");
 
